@@ -19,14 +19,17 @@ public class MalvadaoController : MonoBehaviour
     private Rigidbody2D robertin2;
 */
     private Vector3 posicaoInicial;
-    private GameObject player;
+    private GameObject malvadaso;
+
+    private GameObject bonecaso;
     private Animator anime;
     private int direction;
 
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.Find("MALVADAO");
+        malvadaso = GameObject.Find("MALVADAO");
+        bonecaso = GameObject.Find("BONECAO");
         direction = 1;
         anime = GetComponent<Animator>();
         posicaoInicial = transform.position;
@@ -36,7 +39,7 @@ public class MalvadaoController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int distance = Mathf.RoundToInt(Mathf.Abs(transform.position.x - player.transform.position.x));
+        int distance = Mathf.RoundToInt(Mathf.Abs(transform.position.x - malvadaso.transform.position.x));
 
         if(distance <= 20)
         {
@@ -44,6 +47,10 @@ public class MalvadaoController : MonoBehaviour
             transform.localScale = new Vector3(direction, 1f, 1f);
             if (Mathf.Abs(transform.position.x - posicaoInicial.x) > 10) direction *= -1;
         }
+
+        /*if(malvadaso.transform.position.x - bonecaso.transform.position.x < 1){
+            anime.SetTrigger("Attack");
+        }*/
 
         //anime.SetInteger("Distance", distance);
         
@@ -57,5 +64,16 @@ public class MalvadaoController : MonoBehaviour
             Destroy(collision.gameObject);
             //Destroy(gameObject);
         }
+
+    }
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Bonecao"))
+        {
+            anime.SetTrigger("Attack");
+            //Destroy(collision.gameObject);
+            //Destroy(gameObject);
+        }
+    
     }
 }
