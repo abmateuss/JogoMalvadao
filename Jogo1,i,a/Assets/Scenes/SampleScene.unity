@@ -11844,6 +11844,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bonecao: {fileID: 775007845}
+  animatorboneco: {fileID: 775007846}
   rb: {fileID: 2071183429}
   speed: 1
 --- !u!61 &2071183431

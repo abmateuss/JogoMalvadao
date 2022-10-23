@@ -26,6 +26,9 @@ public class MalvadaoController : MonoBehaviour
 
     private GameObject bonecaso;
     private Animator anime;
+
+    [SerializeField]
+    private Animator animatorboneco;
     private int direction;
 
     private Vector3 scale;
@@ -39,6 +42,8 @@ public class MalvadaoController : MonoBehaviour
     private float distance;
 
     private float angle;
+
+    private int dano,aux,vidaboneco;
 
     // Start is called before the first frame update
     void Start()
@@ -56,20 +61,21 @@ public class MalvadaoController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        distance = Vector2.Distance(transform.position , bonecaso.transform.position);
-        Vector2 direction = bonecaso.transform.position - transform.position;
-        direction.Normalize();
-        angle = Mathf.Atan2(direction.y,direction.x)*Mathf.Rad2Deg;
-        
-        transform.position = Vector2.MoveTowards(this.transform.position,bonecaso.transform.position, speed*Time.deltaTime);
-        Debug.Log(angle);
-        if((angle > 90 && angle <180) || (angle < -90 && angle >-180)){
-            transform.localScale = new Vector3(-scale.x, scale.y, scale.z);  
-        } else {
-            transform.localScale = new Vector3(scale.x, scale.y, scale.z);  
+        if(dano<5){
+            distance = Vector2.Distance(transform.position , bonecaso.transform.position);
+            Vector2 direction = bonecaso.transform.position - transform.position;
+            direction.Normalize();
+            angle = Mathf.Atan2(direction.y,direction.x)*Mathf.Rad2Deg;
+            
+            transform.position = Vector2.MoveTowards(this.transform.position,bonecaso.transform.position, speed*Time.deltaTime);
+            //Debug.Log(angle);
+            if((angle > 90 && angle <180) || (angle < -90 && angle >-180)){
+                transform.localScale = new Vector3(-scale.x, scale.y, scale.z);  
+            } else {
+                transform.localScale = new Vector3(scale.x, scale.y, scale.z);  
+            }
+            //transform.rotation = Quaternion.Euler(Vector3.forward *angle);
         }
-        //transform.rotation = Quaternion.Euler(Vector3.forward *angle);
        
     }
 
@@ -80,15 +86,27 @@ public class MalvadaoController : MonoBehaviour
             anime.SetTrigger("Hit");
             Destroy(collision.gameObject);
             //Destroy(gameObject);
+            dano++;
+            if (dano==5){
+                anime.SetTrigger("Death");
+                //Destroy(gameObject);
+            
+            }
         }
 
     }
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Bonecao") && ((angle <20 && angle >-50) || (angle >160 || angle<-130)) )
-        {
+        {   
+            vidaboneco++;
+            
+            animatorboneco.SetInteger("Vida", vidaboneco);
+            Debug.Log(animatorboneco.GetInteger("Vida"));
             //transform.localScale = new Vector3(transform.position.x>bonecaso.transform.position.x? scale.x:-scale.x, scale.y, scale.z); 
             anime.SetTrigger("Attack");
+            if (vidaboneco==5)
+                animatorboneco.SetTrigger("Death");
             //Destroy(collision.gameObject);
             //Destroy(gameObject);
         }
