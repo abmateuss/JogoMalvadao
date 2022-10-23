@@ -30,6 +30,7 @@ public class MalvadaoController : MonoBehaviour
         direction = 1;
         anime = GetComponent<Animator>();
         posicaoInicial = transform.position;
+        Debug.Log("Jamais saberao oq e ser falmengo");
     }
 
     // Update is called once per frame
