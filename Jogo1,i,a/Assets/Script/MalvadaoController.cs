@@ -38,6 +38,8 @@ public class MalvadaoController : MonoBehaviour
 
     private float distance;
 
+    private float angle;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,7 +60,7 @@ public class MalvadaoController : MonoBehaviour
         distance = Vector2.Distance(transform.position , bonecaso.transform.position);
         Vector2 direction = bonecaso.transform.position - transform.position;
         direction.Normalize();
-        float angle = Mathf.Atan2(direction.y,direction.x)*Mathf.Rad2Deg;
+        angle = Mathf.Atan2(direction.y,direction.x)*Mathf.Rad2Deg;
         
         transform.position = Vector2.MoveTowards(this.transform.position,bonecaso.transform.position, speed*Time.deltaTime);
         Debug.Log(angle);
@@ -83,9 +85,9 @@ public class MalvadaoController : MonoBehaviour
     }
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Bonecao"))
+        if (collision.gameObject.CompareTag("Bonecao") && ((angle <20 && angle >-50) || (angle >160 || angle<-130)) )
         {
-            transform.localScale = new Vector3(transform.position.x>bonecaso.transform.position.x? scale.x:-scale.x, scale.y, scale.z); 
+            //transform.localScale = new Vector3(transform.position.x>bonecaso.transform.position.x? scale.x:-scale.x, scale.y, scale.z); 
             anime.SetTrigger("Attack");
             //Destroy(collision.gameObject);
             //Destroy(gameObject);
