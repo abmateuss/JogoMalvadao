@@ -29,36 +29,39 @@ public class BonecaoController : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetAxis("Vertical") != 0.0f || Input.GetAxis("Horizontal") != 0.0f){
-            if(!andando){
-                animator.SetTrigger("WalkUp");
-                andando = true;
+        if(animator.GetInteger("Vida")<5){
+            if (Input.GetAxis("Vertical") != 0.0f || Input.GetAxis("Horizontal") != 0.0f){
+                if(!andando){
+                    animator.SetTrigger("WalkUp");
+                    andando = true;
+                }
+                robertin.velocity = new Vector2(speed*Input.GetAxis("Horizontal"), speed*Input.GetAxis("Vertical"));
+            } else {
+                if(andando){
+                    animator.SetTrigger("Idle");
+                }
+                andando = false;
             }
-            robertin.velocity = new Vector2(speed*Input.GetAxis("Horizontal"), speed*Input.GetAxis("Vertical"));
-        } else {
-            if(andando){
-                animator.SetTrigger("Idle");
-            }
-            andando = false;
-        }
-
-       
-        //transform.localScale = new Vector3(Input.GetAxis("Horizontal")>0? scale.x:-scale.x, scale.y, scale.z);
-
-
-        //if(Input.GetMouseButtonDown(0))
-        //{
-        worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                     
-        //}
-        transform.localScale = new Vector3(transform.position.x<worldPosition.x? scale.x:-scale.x, scale.y, scale.z);  
-        //if(!andando)
-           
 
         
-        //Debug.Log(worldPosition.x);
-        //transform.localScale = new Vector3(transform.position.x > worldPosition.x? -scale.x:scale.x, scale.y, scale.z);
+            //transform.localScale = new Vector3(Input.GetAxis("Horizontal")>0? scale.x:-scale.x, scale.y, scale.z);
 
+
+            //if(Input.GetMouseButtonDown(0))
+            //{
+            worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        
+            //}
+            transform.localScale = new Vector3(transform.position.x<worldPosition.x? scale.x:-scale.x, scale.y, scale.z);  
+            //if(!andando)
+            
+
+            
+            //Debug.Log(worldPosition.x);
+            //transform.localScale = new Vector3(transform.position.x > worldPosition.x? -scale.x:scale.x, scale.y, scale.z);
+        } else {
+            SceneManager.LoadScene("SampleScene");
+        }
         
     }
 }
